@@ -1,64 +1,142 @@
-# Scanned Document Preprocessing Project
+# TraceFinder - Forensic Scanner Identification
 
-This project is designed to collect, analyze, and preprocess scanned document samples from various scanner devices. The goal is to create a structured dataset suitable for model training and analysis.
+This project implements a machine learning system for identifying the source scanner device used to scan documents by analyzing unique patterns and artifacts left during the scanning process. This tool is valuable for forensic investigations, copyright authentication, and document verification tasks.
+
+## Features
+
+- **Scanner-Specific Feature Extraction**
+  - Noise pattern analysis
+  - Frequency domain features (FFT)
+  - Photo Response Non-Uniformity (PRNU)
+  - Texture descriptors
+  - Edge pattern analysis
+
+- **Multiple Classification Models**
+  - Random Forest classifier
+  - Support Vector Machine (SVM)
+  - Convolutional Neural Network (CNN)
+
+- **Model Explainability**
+  - SHAP values for feature importance
+  - Confidence scores
+  - Performance visualization
+
+- **Web Interface**
+  - Easy-to-use Streamlit interface
+  - Upload and analyze scanned documents
+  - View confidence scores and predictions
 
 ## Project Structure
 
-- **data/**
-  - **raw/**: Contains the raw scanned document samples collected from different scanner devices.
-  - **annotations/**: Contains `labels.csv`, which stores the labeled dataset with columns such as `scanner_model` and `file_name`.
-  - **processed/**: Holds the processed images after preprocessing steps.
+```
+scanned-docs-preprocessing/
+├── data/
+│   ├── raw/                # Raw scanned document samples
+│   ├── processed/          # Preprocessed images
+│   ├── features/          # Extracted features
+│   └── annotations/       # Labels and metadata
+├── src/
+│   ├── __init__.py
+│   ├── collect_samples.py  # Data collection utilities
+│   ├── analyze_images.py   # Image analysis tools
+│   ├── features.py        # Feature extraction
+│   ├── models.py          # ML model implementations
+│   ├── preprocess.py      # Image preprocessing
+│   ├── dataset.py         # Dataset management
+│   └── utils.py           # Utility functions
+├── scripts/
+│   ├── generate_sample_data.py
+│   ├── train_models.py    # Model training pipeline
+│   └── run_preprocess.py
+├── notebooks/
+│   └── 01_exploration.ipynb
+├── tests/
+│   └── test_preprocess.py
+├── app.py                 # Streamlit web interface
+├── requirements.txt
+└── README.md
+```
 
-- **notebooks/**
-  - **01_exploration.ipynb**: A Jupyter notebook for exploratory data analysis, including visualizing image properties and initial dataset exploration.
-
-- **src/**
-  - **__init__.py**: Marks the directory as a Python package.
-  - **collect_samples.py**: Handles the collection of scanned document samples from various scanner models and saves them in the raw data directory.
-  - **analyze_images.py**: Analyzes basic image properties such as resolution, format, and color channels of the scanned documents.
-  - **preprocess.py**: Performs image preprocessing tasks, including resizing images, converting to grayscale, denoising, and normalizing the images.
-  - **dataset.py**: Structures the dataset for model training, organizing the processed images and their corresponding labels.
-  - **utils.py**: Contains utility functions that can be used across different scripts, such as image loading and saving functions.
-
-- **scripts/**
-  - **run_preprocess.py**: Serves as the entry point to run the preprocessing steps on the collected images.
-
-- **tests/**
-  - **test_preprocess.py**: Contains unit tests for the preprocessing functions to ensure they work as expected.
-
-- **requirements.txt**: Lists the dependencies required for the project.
-
-- **pyproject.toml**: Used for project configuration and dependency management.
-
-- **.gitignore**: Specifies files and directories to be ignored by version control.
-
-- **README.md**: Documentation for the project, including setup instructions and usage guidelines.
-
-## Setup Instructions
+## Installation
 
 1. Clone the repository:
-   ```
+   ```bash
    git clone <repository-url>
    cd scanned-docs-preprocessing
    ```
 
-2. Install the required dependencies:
+2. Create a virtual environment and activate it:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   # or
+   venv\Scripts\activate     # Windows
    ```
+
+3. Install dependencies:
+   ```bash
    pip install -r requirements.txt
    ```
 
-3. Collect scanned document samples using the `collect_samples.py` script.
+## Usage
 
-4. Analyze the collected images with `analyze_images.py`.
+### 1. Data Collection
 
-5. Preprocess the images using the `run_preprocess.py` script.
+```bash
+python -m src.collect_samples
+```
 
-6. Explore the dataset using the Jupyter notebook `01_exploration.ipynb`.
+This will:
+- Collect scanned document samples
+- Extract scanner-specific features
+- Save features and metadata
 
-## Usage Guidelines
+### 2. Model Training
 
-- Ensure that the scanned documents are stored in the `data/raw` directory.
-- The `labels.csv` file in `data/annotations` should be updated with the appropriate labels for each scanned document.
-- Processed images will be saved in the `data/processed` directory after running the preprocessing script.
+```bash
+python scripts/train_models.py
+```
 
-For any issues or contributions, please refer to the project's issue tracker or contact the maintainers.
+This script will:
+- Train multiple models (RF, SVM, CNN)
+- Generate performance metrics
+- Create visualization plots
+- Save results and models
+
+### 3. Web Interface
+
+```bash
+streamlit run app.py
+```
+
+This will launch the web interface where you can:
+- Upload scanned documents
+- Get scanner predictions
+- View confidence scores
+- Analyze feature importance
+
+## Model Performance
+
+The system aims to achieve:
+- Classification accuracy > 85%
+- Support for 3-5 different scanner models
+- Robustness to image format and resolution variations
+
+## Documentation
+
+Detailed documentation is available in the following locations:
+- `notebooks/01_exploration.ipynb`: Dataset exploration and analysis
+- `output/*/results.json`: Model performance metrics
+- `output/*/`: Visualization plots and metrics
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+MIT License - see LICENSE file for details
