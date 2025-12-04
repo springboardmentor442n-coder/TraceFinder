@@ -1,0 +1,11 @@
+
+create your own environment using : python -m venv .venv
+
+activate env  : . .venv/Scripts/activate
+
+installing requirements : pip install -r requirements.txt
+
+
+activating server : uvicorn backend.main:app --reload
+
+opening application(new terminal) : streamlit run frontend/app.py
