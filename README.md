@@ -8,6 +8,33 @@ Each scanner (brand/model) introduces specific noise, texture, or compression tr
 This project is important in **forensic investigations**, **copyright authentication**, and **document verification tasks**.
 
 ---
+## Project Structure
+scanned-docs-preprocessing/
+├── data/
+│   ├── raw/                # Raw scanned document samples
+│   ├── processed/          # Preprocessed images
+│   ├── features/          # Extracted features
+│   └── annotations/       # Labels and metadata
+├── src/
+│   ├── __init__.py
+│   ├── collect_samples.py  # Data collection utilities
+│   ├── analyze_images.py   # Image analysis tools
+│   ├── features.py        # Feature extraction
+│   ├── models.py          # ML model implementations
+│   ├── preprocess.py      # Image preprocessing
+│   ├── dataset.py         # Dataset management
+│   └── utils.py           # Utility functions
+├── scripts/
+│   ├── generate_sample_data.py
+│   ├── train_models.py    # Model training pipeline
+│   └── run_preprocess.py
+├── notebooks/
+│   └── 01_exploration.ipynb
+├── tests/
+│   └── test_preprocess.py
+├── app.py                 # Streamlit web interface
+├── requirements.txt
+└── README.md
 
 ## 2. Use Cases
 
