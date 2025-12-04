@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Ignore common editor/OS files
+.vscode/
+.DS_Store
+
+# Ignore large model artifacts (keras, h5, etc.) in project models
+project/models/*.keras
+project/models/*.h5
+project/models/*.hdf5
+project/models/*.ckpt
+project/models/*.model
+
+# Optionally ignore venvs
+.venv/
+env/

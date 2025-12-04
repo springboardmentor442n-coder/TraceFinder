@@ -1,0 +1,25 @@
+# Backend API
+fastapi
+uvicorn
+
+# Frontend
+streamlit
+requests
+
+# Image processing
+opencv-python-headless
+scikit-image
+scipy
+pywavelets
+Pillow
+
+# Machine learning
+numpy
+pandas
+scikit-learn
+xgboost
+tensorflow
+
+# Utilities
+tqdm
+python-multipart
