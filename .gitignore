@@ -1,0 +1,25 @@
+# Ignore everything to ensure only Frontend is pushed (User Request)
+Backend/
+models/
+File/
+Dataset/
+archive/
+scripts/
+src/
+*.py
+include/
+Lib/
+Scripts/
+*.txt
+*.md
+.env
+
+# Keep Frontend
+!Frontend/
+
+# Standard ignores
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+.vscode/
