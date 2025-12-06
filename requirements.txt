@@ -1,0 +1,32 @@
+# Backend Dependencies
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Database
+sqlalchemy
+pymysql
+cryptography
+
+# Machine Learning
+tensorflow
+keras
+xgboost
+scikit-learn
+scikit-image
+
+# Image Processing
+opencv-python
+Pillow
+PyWavelets
+
+# Data Processing
+numpy
+pandas
+scipy
+tqdm
+
+# Authentication
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv

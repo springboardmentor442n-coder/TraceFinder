@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+python-multipart
+tensorflow
+xgboost
+scikit-learn
+opencv-python
+scikit-image
+scipy
+pandas
+numpy
+tqdm
+PyWavelets

@@ -1,23 +1,40 @@
-# Ignore everything to ensure only Frontend is pushed (User Request)
-Backend/
-models/
-File/
-Dataset/
-archive/
-scripts/
-src/
-*.py
-include/
-Lib/
-Scripts/
-*.txt
-*.md
+# General Ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
 .env
+.vscode/
+.idea/
+node_modules/
+.DS_Store
 
-# Keep Frontend
+# Ignore Large Data & Models
+models/
+Dataset/
+File/
+archive/
+
+# Ignore large/binary specific extensions just in case
+*.keras
+*.h5
+*.pkl
+*.npy
+
+# Allow Code Directories
+!Backend/
 !Frontend/
+!scripts/
+!src/
 
-# Standard ignores
+# Allow root config files
+!requirements.txt
+!README.md
+!main.py
+
 __pycache__/
 *.pyc
 node_modules/
