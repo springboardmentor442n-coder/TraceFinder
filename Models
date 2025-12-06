@@ -3,9 +3,9 @@
 The trained models for this project are **NOT included** in this GitHub repository because the files are extremely large (1–4 GB depending on the model).
 
 Models used:
-- CNN-based Scanner Classifier (~2.1 GB)
-- PRNU Noise Pattern Model (~1.4 GB)
-- RandomForest + Feature Extractor Model (~700 MB)
+- xgboost_model.pkl (Small, included)
+- scanner_hybrid_final.keras (Large, kept local)
+- cnn_residual_model.keras (Large, kept local)
 
 Due to size limits, the model files are stored externally and can be accessed upon request.
 
