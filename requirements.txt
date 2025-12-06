@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+streamlit
+tensorflow
+numpy
+opencv-python
+scikit-image
+scikit-learn
+scipy
+pywavelets
+pillow
+requests
+tqdm
+python-multipart
