@@ -1,0 +1,32 @@
+# Backend API
+fastapi==0.110.0
+uvicorn==0.29.0
+
+# Frontend
+streamlit==1.31.0
+requests==2.31.0
+
+# Image processing
+opencv-python-headless==4.8.1.78
+scikit-image==0.22.0
+scipy==1.10.1
+pywavelets==1.4.1
+Pillow==10.2.0
+
+# Machine learning
+numpy==1.24.3
+pandas==2.1.4
+scikit-learn==1.3.2
+xgboost==1.7.6
+
+# TensorFlow (compatible with numpy 1.24 & Windows)
+tensorflow==2.13.0
+keras==2.13.1
+tensorboard==2.13.0
+gast==0.4.0
+grpcio==1.74.0
+typing-extensions==4.15.0
+
+# Utilities
+tqdm==4.66.1
+python-multipart==0.0.9
