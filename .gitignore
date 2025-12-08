@@ -1,0 +1,26 @@
+# Ignore virtual environments
+venv/
+*/venv/
+**/venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment files
+.env
+*.env
+
+# Node modules (if frontend exists)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
