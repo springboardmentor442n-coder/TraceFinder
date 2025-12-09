@@ -1,0 +1,26 @@
+{
+  "cnn": {
+    "key": "cnn",
+    "title": "Convolutional Neural Network (CNN)",
+    "accuracy": "93%",
+    "confusion_image": "cnn_confusionmatrix.png",
+    "description": "Pure CNN using residual images (256x256) for scanner classification.",
+    "summary": "Residual-based CNN with strong image-only learning."
+  },
+  "hybrid": {
+    "key": "hybrid",
+    "title": "Hybrid CNN (Image + Features)",
+    "accuracy": "81%",
+    "confusion_image": "hybrid_cnn_confusionmatrix.png",
+    "description": "Combines residual image and handcrafted features for improved robustness.",
+    "summary": "Dual-input model: CNN branch + 31 handcrafted statistical features."
+  },
+  "sklearn": {
+    "key": "sklearn",
+    "title": "Sklearn Classifier",
+    "accuracy": "46%",
+    "confusion_image": "sklearn_confusionmatrix.png",
+    "description": "Classical ML classifier trained on handcrafted features only.",
+    "summary": "Feature-only model using RandomForest/SVM/LogisticRegression for baseline comparison."
+  }
+}
