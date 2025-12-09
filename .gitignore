@@ -1,0 +1,46 @@
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Python caches and artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+*.npy
+*.npz
+*.tmp
+*.pickle
+*.pkl
+
+# Data, outputs, large binaries
+Data/
+Output/
+Residuals_raw/
+Residuals_vis/
+
+# Models and large weights
+models/
+*.h5
+*.keras
+*.ckpt
+
+# Frontend build artifacts / node modules
+node_modules/
+dist/
+build/
+package-lock.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE/editor configs
+.vscode/

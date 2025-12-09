@@ -1,0 +1,28 @@
+# Normalize text files and avoid accidental EOL conversions
+* text=auto
+
+# Explicit text files
+*.py text eol=lf
+*.md text
+
+# Treat notebooks as binary to avoid merge conflicts
+*.ipynb binary
+
+# Large model and checkpoint files — treat as binary
+*.h5 binary
+*.keras binary
+*.ckpt binary
+models/* binary
+
+# Data and output directories: mark as binary and skip from archives
+Data/* binary
+Output/* binary
+Data/* export-ignore
+Output/* export-ignore
+Notebooks/* export-ignore
+models/* export-ignore
+
+# Help GitHub linguist: mark generated or vendored content
+*.ipynb linguist-documentation
+Data/* linguist-vendored
+models/* linguist-vendored
