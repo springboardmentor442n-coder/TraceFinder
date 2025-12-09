@@ -1,0 +1,20 @@
+fastapi
+uvicorn[standard]
+numpy
+pillow
+scikit-learn
+tensorflow
+aiofiles
+python-multipart
+pydantic
+
+# Additional packages used by notebooks and backend inference
+opencv-python
+scikit-image
+scipy
+pandas
+matplotlib
+seaborn
+joblib
+tqdm
+PyWavelets

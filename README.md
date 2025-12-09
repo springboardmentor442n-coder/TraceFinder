@@ -1,174 +1,200 @@
-# TraceFinder - Forensic Scanner Identification
+# Trace Finder
 
-## 1. Project Statement
-The aim of this project is to **identify the source scanner device** used to scan a document or image by analyzing the unique patterns or artifacts left behind during the scanning process.  
+Trace Finder is a small experimental project for scanner-source identification. It contains:
 
-Each scanner (brand/model) introduces specific noise, texture, or compression traces that can be learned by a machine learning model.  
+- A FastAPI backend that exposes prediction endpoints and serves a few static assets.
+- A React + Vite frontend (in `frontend/`) used to explore models and upload images for prediction.
+- Pretrained models and training artifacts stored under `Notebooks/` and `backend/models/`.
+- Datasets and residual images under `Data/`.
 
-This project is important in **forensic investigations**, **copyright authentication**, and **document verification tasks**.
-
----
-
-## 2. Use Cases
-
-### **1. Digital Forensics**
-- **Description:** Determine which scanner was used to forge or duplicate legal documents.  
-- **Example:** Detect whether a fake certificate was created using a specific scanner model.
-
-### **2. Document Authentication**
-- **Description:** Identify the source of printed and scanned images to detect tampering or fraudulent claims.  
-- **Example:** Differentiate between scans from authorized and unauthorized departments.
-
-### **3. Legal Evidence Verification**
-- **Description:** Ensure scanned copies submitted in court/legal matters came from known and approved devices.  
-- **Example:** Verify that scanned agreements originated from the company’s official scanner.
+This README documents the project's structure, the files required to run the app locally, and quick run instructions.
 
 ---
 
-## 3. Expected Outcomes
-By the end of this project, students will:
-- Understand the concept of **source device identification**.  
-- Extract **scanner-specific features** such as noise patterns, frequency domain signals, and artifacts.  
-- Train a **classification model** to distinguish among multiple scanners.  
-- Evaluate **model accuracy** and visualize **feature importance**.  
-- Optionally **deploy a simple app** to upload and identify the scanner source.
+## Important folders & files (brief inventory)
+
+- `backend/`
+	- `backend/api/main.py` — FastAPI application and endpoints (`/predict-file`, `/predict-path`, `/assets/*`). This is the backend entrypoint.
+	- `backend/inference/` — Python modules that implement feature extraction and `predict_single_image`. (Essential for server-side predictions.)
+	- `backend/models/` — model files (e.g. `cnn_residual_best.keras`, `scanner_hybrid_best.keras`) used by the inference code.
+
+- `frontend/`
+	- `frontend/package.json` — contains frontend dependencies and `dev` script (Vite).
+	- `frontend/src/` — React app source (pages: `Home.jsx`, `ModelGallery.jsx`, `ModelDetail.jsx`, components: `UploadPanel.jsx`, etc.).
+	- `frontend/public/` — static assets (background image `bg-page.jpg`, `assets/` confusion images).
+
+- `Notebooks/` (research/experiment files)
+	- Training scripts and notebooks (for example: `CNN_model_training.py`, `hybrid_cnn.ipynb`) and many saved artifacts: `*.keras`, `*.h5`, label encoders, feature pickles.
+	- These files are useful for model retraining and reproducing experiments but are not required for running the frontend dev server.
+
+- `Data/` — raw and processed datasets, residual images and intermediate files used for training and analysis. Large and not required to run the UI locally unless you want to reproduce training or offline predictions.
+
+- `Output/` — CSVs and exported outputs from earlier runs and analyses.
 
 ---
 
-## 4. Dataset
-- **Source:** Kaggle  
-*(Additional manually collected samples may be added if needed.)*
+## Files required to run the application (minimum)
+
+1. backend/api/main.py (the FastAPI app)
+2. backend/inference/models.py (or equivalent) — must provide `predict_single_image(path, model=None, verbose=False)`
+3. backend/models/* (at least one saved model file that your inference code can load). Without models the API can still run but predictions will fail.
+4. frontend/package.json and `frontend/src/` — to run the frontend dev server.
+5. `frontend/public/bg-page.jpg` (optional) and `frontend/public/assets/*` (confusion images) — used by the UI.
+
+If you only want to run the UI without local predictions, you can start the frontend without any backend running; the UI currently has a mock prediction flow used for development.
 
 ---
 
-## 5. System Architecture
-*(Insert system architecture diagram here)*
+## Quick start (development)
+
+Prerequisites:
+
+- Node.js (LTS) and npm installed for the frontend.
+- Python 3.10+ for the backend (a virtual environment is recommended).
+
+Backend (Python):
+
+1. Create and activate a virtual environment from the repo root:
+
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+2. Install Python requirements (from repo root `requirements.txt`):
+
+```powershell
+pip install -r ..\requirements.txt
+```
+
+3. Start the API (from `backend`):
+
+```powershell
+uvicorn api.main:app --reload --port 8000
+```
+
+OR use the provided helper from the repo root:
+
+```powershell
+.\start-backend.ps1
+```
+
+Frontend (Node + Vite):
+
+1. From repo root:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+2. Open the dev server URL printed by Vite (usually `http://localhost:3000`).
+
+Note: the frontend has mock prediction behavior for development; to get real predictions wire the frontend to the running backend (defaults to `http://localhost:8000`).
 
 ---
 
-## 6. Modules to Be Implemented
+## Requirements / Dependencies
 
-### **1. Data Collection & Labeling**
-- Manually scan sample images using multiple scanners.  
-- Assign proper labels based on source device.
+Python (root `requirements.txt`) — packages used by the backend and inference code (recommended minimum):
 
-### **2. Image Preprocessing**
-- Resize, denoise, and convert to grayscale if needed.  
-- Normalize pixels and remove non-artifact content.
+```
+fastapi
+uvicorn[standard]
+numpy
+pillow
+scikit-learn
+tensorflow
+aiofiles
+python-multipart
+pydantic
+```
 
-### **3. Feature Extraction**
-- Extract noise patterns using filters (e.g., Wavelet, FFT).  
-- Compute **PRNU**, texture descriptors, and edge patterns.
+Frontend (from `frontend/package.json`):
 
-### **4. Model Training**
-- Train classifiers such as:
-  - **CNN** (if using deep features)
-  - **Random Forest**, **SVM** (if using extracted features)  
-- Evaluate performance on validation set.
+```
+react
+react-dom
+react-router-dom
+vite
+tailwindcss
+postcss
+autoprefixer
+@vitejs/plugin-react
+```
 
-### **5. Output System**
-- Upload an image → Return probable scanner model.  
-- Optional: Display **confidence score** and **feature map**.
-
----
-
-## 7. Week-wise Implementation Roadmap
-
-### **Milestone 1: Dataset Collection & Preprocessing**
-
-#### Week 1:
-- Collect scanned document samples from different scanner devices (minimum **3–5 models/brands**).  
-- Create a labeled dataset (e.g., `scanner_model`, `file_name`, etc.).  
-- Analyze basic image properties such as resolution, format, and color channel.
-
-#### Week 2:
-- Perform image preprocessing:
-  - Resize all images to a fixed dimension.  
-  - Convert to grayscale if needed.  
-  - Denoise (optional).  
-- Normalize and structure the dataset for model training.
+You can install Node deps with `npm install` inside `frontend/`.
 
 ---
 
-### **Milestone 2: Feature Engineering & Baseline Modeling**
+## Project notes & suggestions
 
-#### Week 3:
-- Extract hand-crafted features such as:
-  - Noise patterns.  
-  - Frequency domain features (e.g., FFT).  
-  - Texture descriptors (e.g., LBP).  
-- Visualize differences between scanner outputs (e.g., noise maps).
-
-#### Week 4:
-- Train baseline ML models (e.g., Logistic Regression, SVM, Random Forest).  
-- Evaluate using **accuracy** and **confusion matrix**.  
-- Log performance and identify limitations of hand-crafted features.
+- The heavy model files and `Data/` folder contain many large binary artifacts; they are not required to run the UI but are necessary if you want to run accurate local inference.
+- If you retain the `Notebooks/` folder, you can find training scripts and serialized artifacts used during model development.
+- To reduce repository size for distribution, consider moving large datasets and model weights to a separate storage (S3, Google Drive) and keep only the code and small sample models in the git repo.
 
 ---
 
-### **Milestone 3: Deep Learning Model + Explainability**
+If you want, I can now:
 
-#### Week 5:
-- Build and train a **CNN model** on the raw image dataset.  
-- Use **image augmentation** for generalization (brightness, rotation).  
-- Tune **hyperparameters** and track training curves (accuracy/loss).
+1. Expand this README with a full file listing (per-folder) — note this can be very large (many thousands of files). I can produce a trimmed listing with the most relevant files.
+2. Update the `requirements.txt` with pinned versions from your current Python environment (if you want exact reproducibility I can inspect the `.venv` and pin versions).
 
-#### Week 6:
-- Evaluate model performance using **accuracy**, **F1-score**, and **confusion matrix**.  
-- Apply explainability tools such as **SHAP** or **Grad-CAM** to visualize how the model identifies scanner-specific patterns.
+Tell me which of the two you'd like and I'll proceed.
 
 ---
 
-### **Milestone 4: Deployment & Final Report**
+## Additional files discovered and suggested README entries
 
-#### Week 7:
-- Create a simple UI using **Streamlit** (or any frontend):
-  - Upload scanned image.  
-  - Get predicted scanner brand/model with confidence score.  
-- Log predictions and allow download of results.
+While scanning the repository I found a number of files and modules used by the backend and inference pipeline that are useful to list explicitly in the README so new contributors know which files are required for predictions and which are optional research artifacts.
 
-#### Week 8:
-- Final documentation and formatting.  
-- Add system architecture, training results, model comparison, and screenshots.  
-- Prepare final presentation slides and demonstrate the working model.
+- Backend entry & inference modules (required for running the API with real predictions):
+	- `backend/api/main.py` — FastAPI application and endpoints.
+	- `backend/inference/models.py` — loads saved models and exposes `predict_single_image`.
+	- `backend/inference/features.py` — feature-extraction helpers (residuals, handcrafted features).
+	- `backend/inference/singleimage_prediction.py` — example single-image prediction logic used in notebooks.
+	- `backend/inference/utils.py` — helper utilities for image resizing/padding and other helpers.
+	- `backend/models/` — contains Keras model files like `cnn_residual_best.keras` and `scanner_hybrid_best.keras` (required for real predictions).
+
+- Frontend (UI):
+	- `frontend/package.json` — frontend dependencies and scripts (Vite dev server).
+	- `frontend/src/pages/Home.jsx`, `frontend/src/pages/ModelGallery.jsx`, `frontend/src/pages/ModelDetail.jsx` — main pages used for navigation and UI.
+	- `frontend/public/assets/` — static images used in the UI (confusion matrices, icons).
+
+- Notebooks and training artifacts (optional, for reproduction and retraining):
+	- `Notebooks/CNN_model_training.py`, `Notebooks/hybrid_cnn.py`, `Notebooks/preprocess.py`, `Notebooks/singleimage_prediction.py` — training and prediction scripts used for research.
+	- Many large serialized artifacts (`*.keras`, `*.h5`, `*.npy`, pickles) are stored across `Notebooks/` and `backend/models/`.
+
+- Helpers and utilities found at repo root:
+	- `start-backend.ps1` — helper PowerShell script to start the backend.
+	- `test.py` — a small test harness that calls `backend.inference.predict_single_image` (useful for quick sanity checks).
+	- `checklist.py` / `checklist_output.json` — repository inspection helpers used by the project.
+
+## Updated requirements (additional packages added)
+
+I updated `requirements.txt` to include additional packages discovered while scanning Python files (used by the notebooks and backend inference code). These packages are not all strictly required for the minimal API, but they are necessary if you want to run training, preprocessing, or the complete inference pipeline locally:
+
+```
+fastapi
+uvicorn[standard]
+numpy
+pillow
+scikit-learn
+tensorflow
+aiofiles
+python-multipart
+pydantic
+opencv-python
+scikit-image
+scipy
+pandas
+matplotlib
+seaborn
+joblib
+tqdm
+PyWavelets
+```
 
 ---
-
-## 8. Evaluation Criteria
-
-### **Completion of Tasks**
-- Data collected and labeled correctly.  
-- Feature engineering and modeling completed.  
-- UI integration and testing done.
-
-### **Model Quality**
-- Classification accuracy **above baseline (ideally >85%)**.  
-- Model should distinguish between at least **3–5 scanners**.  
-- Robustness to image format and scan resolution.
-
-### **Documentation & Demo**
-- Clear explanation of methodology.  
-- Model performance charts (accuracy, confusion matrix).  
-- Insights into feature importance (explainability).
-
----
-
-## 9. Model Performance – Quantitative Metrics
-
-### **Classification Metrics**
-- **Accuracy:** Correct scanner prediction rate.  
-- **Precision:** Correct predictions for each scanner class.  
-- **Recall:** Ability to detect all true scanner outputs.  
-- **F1-Score:** Balance of precision and recall.  
-- **Confusion Matrix:** Visualization of misclassification between scanner types.
-
-### **Feature Analysis**
-- Use **SHAP** or **Grad-CAM** (if CNN used) to show key areas.  
-- Validate that the model is **not biased** toward scan brightness or layout.
-
----
-
-## 10. Conclusion
-This project aims to bridge forensic analysis and machine learning by identifying **scanner device signatures** embedded in scanned images.  
-
-Through advanced feature extraction, classification, and explainable AI, the **TraceFinder** system can significantly aid digital forensics, legal investigations, and document authenticity verification.
