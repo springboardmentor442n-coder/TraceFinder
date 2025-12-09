@@ -1,0 +1,47 @@
+fastapi
+uvicorn[standard]
+numpy>=1.23
+pillow>=9.0
+scikit-learn>=1.0
+tensorflow>=2.10
+aiofiles
+python-multipart
+pydantic
+
+# Additional packages commonly used by notebooks and inference
+opencv-python
+scikit-image
+scipy
+pandas
+matplotlib
+seaborn
+joblib
+tqdm
+PyWavelets
+
+# Optional: pin GPU-enabled TensorFlow or specialized packages as needed
+# tensorflow-gpu==<version>
+
+fastapi
+uvicorn[standard]
+numpy>=1.23
+pillow>=9.0
+scikit-learn>=1.0
+tensorflow>=2.10
+aiofiles
+python-multipart
+pydantic
+
+# Additional packages commonly used by notebooks and inference
+opencv-python
+scikit-image
+scipy
+pandas
+matplotlib
+seaborn
+joblib
+tqdm
+PyWavelets
+
+# Optional: pin GPU-enabled TensorFlow or specialized packages as needed
+# tensorflow-gpu==<version>
